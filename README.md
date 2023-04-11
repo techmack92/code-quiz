@@ -9,7 +9,7 @@ When this web application loads
 This application is used to 
 
 ## Deployed Application
-<a href="https://techmack92.github.io/code-quiz/">***Random Password Generator.***</a>
+<a href="https://techmack92.github.io/code-quiz/">***The Timed Code Quiz.***</a>
 
 ## Technologies Used
 HTML, CSS, JavaScript.
