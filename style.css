@@ -1,0 +1,36 @@
+body {
+    font-family: sans-serif;
+}
+
+.container {
+    margin: auto;
+    text-align: center;
+}
+
+.header-left {
+    font-size: 15px;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    float: left;
+    color: purple;
+}
+
+#countdown {
+    font-size: 15px;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    float: right;
+}
+
+h1 {
+    padding-top: 75px;
+}
+
+#start-quiz {
+    background-color: purple;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
