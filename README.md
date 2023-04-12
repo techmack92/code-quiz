@@ -1,4 +1,4 @@
-# Timed Code Quiz
+# Timed Coding Quiz
 
 ## Description
 
