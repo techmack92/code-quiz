@@ -1,14 +1,15 @@
-var countdown = document.getElementById("countdown");
+var timer = document.getElementById("countdown");
 var startBtn = document.getElementById("start-quiz");
 var startScreen = document.getElementById("start-screen")
 
-// var timeLeft = document.getElementById("")
 
-// Removes the start screen and button, but keeps the "View High Scores" and Timer
+// Removes the start screen and button, but keeps the "View High Scores" and Timer displayed
 startBtn.addEventListener("click", function() {
     startScreen.remove();
+    // Once "Start Quiz" button is clicked, the timer starts
+    countdown();
 });
-  
+ 
 // List of all questions, choices, and answers
 var questions = [
     {
@@ -41,32 +42,26 @@ var questions = [
       answer: "console.log",
     },
   ];
+
   
-  
-//   // Timer that counts down from 75
-// function countdown() {
-//     var timeLeft = 75;
-  
-  
-//   // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
-//   var timeInterval = setInterval(function () {
-//     // As long as the `timeLeft` is greater than 1
-//     if (timeLeft > 1) {
-//       // Set the `textContent` of `timerEl` to show the remaining seconds
-//       timerEl.textContent = timeLeft + " seconds remaining";
-//       // Decrement `timeLeft` by 1
-//       timeLeft--;
-//     } else if (timeLeft === 1) {
-//       // When `timeLeft` is equal to 1, rename to "second" instead of "seconds"
-//       timerEl.textContent = timeLeft + " second remaining";
-//       timeLeft--;
-//     } else {
-//       // Once `timeLeft` gets to 0, set `timerEl` to an empty string
-//       timerEl.textContent = ";
-//       // Use `clearInterval()` to stop the timer
-//       clearInterval(timeInterval);
-//       // Call the `displayMessage()` function
-//       displayMessage();
-//     }
-//   }, 1000);
-// }
+  // Timer that counts down from 75
+function countdown() {
+    var timeLeft = 75;
+    
+  // The `setInterval()` method calls a function to be executed every 1000 milliseconds (1 second)
+  var timeInterval = setInterval(function () {
+    // As long as `timeLeft` is greater than 1
+    if (timeLeft > 1) {
+      // Set the `textContent` of `timer` to show the remaining seconds
+      timer.textContent = "Time: " + timeLeft;
+      // Decrement `timeLeft` by 1
+      timeLeft--;
+    } else if (timeLeft === 0) {
+     // Once `timeLeft` gets to 0, display "Time's Up!"
+      timer.textContent = "Time's Up";
+      // Use `clearInterval()` to stop the timer
+      clearInterval(timeInterval);
+      return;
+    }
+  }, 1000);
+}
