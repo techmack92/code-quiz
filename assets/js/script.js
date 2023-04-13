@@ -1,15 +1,19 @@
-var timer = document.getElementById("countdown");
-var startBtn = document.getElementById("start-quiz");
-var startScreen = document.getElementById("start-screen")
+var timerEl = document.getElementById("countdown");
+var startBtnEl = document.getElementById("start-quiz");
+var startScreenEl = document.getElementById("start-screen");
+var quizEl = document.getElementById("quiz");
+var checkAnswerEl = document.getElementById("check-answer");
+var finalScoreEl = document.getElementById("final-score");
 
+var initialsInputEl = document.getElementById("initials-input");
+var scoreEl = document.getElementById("score");
+var submitBtnEl = document.getElementById("submit-btn");
+var currentQuestionIndex = 0;
+// Timer that counts down from 75
+var timeLeft = 75;
+var score = 0;
+var timerInterval;
 
-// Removes the start screen and button, but keeps the "View High Scores" and Timer displayed
-startBtn.addEventListener("click", function() {
-    startScreen.remove();
-    // Once "Start Quiz" button is clicked, the timer starts
-    countdown();
-});
- 
 // List of all questions, choices, and answers
 var questions = [
     {
@@ -43,25 +47,33 @@ var questions = [
     },
   ];
 
-  
-  // Timer that counts down from 75
+  // Removes the start screen and button, but keeps the "View High Scores" and Timer displayed
+startBtnEl.addEventListener("click", function() {
+    startScreenEl.remove();
+    // Once "Start Quiz" button is clicked, the timer starts
+    countdown();
+});
+
 function countdown() {
-    var timeLeft = 75;
-    
   // The `setInterval()` method calls a function to be executed every 1000 milliseconds (1 second)
   var timeInterval = setInterval(function () {
     // As long as `timeLeft` is greater than 1
-    if (timeLeft > 1) {
+    if (timeLeft > 0) {
+        // Decrement the timer by 1
+        timeLeft--;
       // Set the `textContent` of `timer` to show the remaining seconds
-      timer.textContent = "Time: " + timeLeft;
+      timerEl.textContent = "Time: " + timeLeft;
       // Decrement `timeLeft` by 1
       timeLeft--;
-    } else if (timeLeft === 0) {
-     // Once `timeLeft` gets to 0, display "Time's Up!"
-      timer.textContent = "Time's Up";
-      // Use `clearInterval()` to stop the timer
-      clearInterval(timeInterval);
-      return;
+    } else {
+        endQuiz;
     }
   }, 1000);
+}
+
+// Function that displays questions
+function showQuestion() {
+    var currentQuestion = questions.currentQuestionIndex;
+
+
 }
