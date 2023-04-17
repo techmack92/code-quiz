@@ -12,39 +12,43 @@
   <body>
     <div class="container">
       <!-- Header that stays on screen until game is over -->
-      <div class="top-row">
-        <h2 id="countdown">Time: 0</h2>
-        <h2 class="header-left">View High Scores</h2>
+      <div id="top-row">
+        <h2 id="countdown">Time: 75</h2>
+        <button id="header-left">View High Scores</button>
       </div>
 
       <!-- Start screen header and text -->
       <div id="start-screen">
         <h1>Coding Quiz Challenge</h1>
         <p> Try to answer the following coding-related questions within the time limit.</br> Keep in mind that incorrect answers will penalize your score time by 10 seconds.</p>
-        <button id="start-quiz">Start Quiz</button>
+        <button class="button" id="start-quiz">Start Quiz</button>
       </div>
 
       <!-- Quiz -->
       <div id="quiz" style="display: none">
-        <div>
-          <button class="choice" id="choice-1"></button>
-          <button class="choice" id="choice-2"></button>
-          <button class="choice" id="choice-3"></button>
-          <button class="choice" id="choice-4"></button>
-        </div>
+        <div id="question-title"></div>
+        <div id="choices"></div>
         <p id="check-answer" style="display:none"></p>
       </div>
-
-      <!-- Score -->
+<!-- 
+      Final score 
       <div id="score" style="display: none">
         <h2>Your final score is <span id="final-score"></span>.</h2>
         <form>
           <label for="initials-input">Enter initials:</label>
-          <input type="text" id="initials-input" name="initials-input">
-          <button type="submit" id="submit-btn">Submit</button>
+          <input type="text" id="initials-input">
+          <button type="submit" class="button" id="submit-btn">Submit</button>
         </form>
       </div>
 
+       High scores 
+      <div id="high-scores" style="display: none">
+        <h2>High Scores</h2>
+        <button class="button" id="back-btn">Go back</button>
+        <button class="button" id="clear-btn">Clear High Scores</button>
+
+      </div>
+ -->
     </div>
 
     <script src="./assets/js/script.js"></script>

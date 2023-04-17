@@ -2,17 +2,17 @@ var timerEl = document.getElementById("countdown");
 var startBtnEl = document.getElementById("start-quiz");
 var startScreenEl = document.getElementById("start-screen");
 var quizEl = document.getElementById("quiz");
+var choicesEl = document.getElementById("choices");
 var checkAnswerEl = document.getElementById("check-answer");
 var finalScoreEl = document.getElementById("final-score");
-
 var initialsInputEl = document.getElementById("initials-input");
 var scoreEl = document.getElementById("score");
 var submitBtnEl = document.getElementById("submit-btn");
+var questionTitleEl = document.getElementById("question-title");
 var currentQuestionIndex = 0;
-// Timer that counts down from 75
-var timeLeft = 75;
 var score = 0;
-var timerInterval;
+var timerInterval = 0;
+var timeLeft = 75;              // Timer that counts down from 75
 
 // List of all questions, choices, and answers
 var questions = [
@@ -47,33 +47,81 @@ var questions = [
     },
   ];
 
-  // Removes the start screen and button, but keeps the "View High Scores" and Timer displayed
-startBtnEl.addEventListener("click", function() {
-    startScreenEl.remove();
-    // Once "Start Quiz" button is clicked, the timer starts
-    countdown();
+  startBtnEl.addEventListener("click", function() {
+    startScreenEl.style.display = "none";                    // Removes the start screen and button, but keeps the "View High Scores" and Timer displayed
+    countdown();                                            // Once "Start Quiz" button is clicked, the timer starts
+    showQuestion();
 });
 
 function countdown() {
-  // The `setInterval()` method calls a function to be executed every 1000 milliseconds (1 second)
-  var timeInterval = setInterval(function () {
-    // As long as `timeLeft` is greater than 1
-    if (timeLeft > 0) {
-        // Decrement the timer by 1
-        timeLeft--;
-      // Set the `textContent` of `timer` to show the remaining seconds
-      timerEl.textContent = "Time: " + timeLeft;
-      // Decrement `timeLeft` by 1
-      timeLeft--;
+  setInterval(function () {                                 // The `setInterval()` method calls a function to be executed every 1000 milliseconds (1 second)
+    if (timeLeft > 0) {                                     // As long as `timeLeft` is greater than 1
+        timeLeft--;                                         // Decrement the timer by 1
+      timerEl.textContent = "Time: " + timeLeft;            // Set the `textContent` of `timer` to show the remaining seconds
     } else {
-        endQuiz;
+        endQuiz();
     }
   }, 1000);
+
 }
 
 // Function that displays questions
 function showQuestion() {
-    var currentQuestion = questions.currentQuestionIndex;
-
-
+    quizEl.style.display = "block";
+    choicesEl.style.display = "block";
+    var currentQuestion = questions[currentQuestionIndex];       // Gets current question from `questions` array using the index
+    questionTitleEl.textContent = currentQuestion.question;      // Sets text of `quiz` element to the current question's text
+    choicesEl.innerHTML = "";
+    for (var i = 0; i < currentQuestion.choices.length; i++) {   // As long as `i` is less than the length of `questions` array,
+        var li = document.createElement("li");                   // Create a list item element, and
+        li.textContent = currentQuestion.choices[i];             // Set the choices text of the current question
+        li.classList.add("button");
+        li.addEventListener("click", function () {
+            if (this.textContent === currentQuestion.answer) {
+                score++;
+            } else {
+                timeLeft -=10;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex === questions.length || timeLeft === 0) {
+                endQuiz();
+            } else {
+                showQuestion();
+            }
+        }); 
+        choicesEl.appendChild(li);                                // Appends `li` elements to the `choicesEl` div
+    }
 }
+
+  
+
+// // Function that checks the user's answer
+// function checkAnswer(event) {
+//     event.preventDefault();
+//     var selectedChoice = event.target.textContent;          // Gets the text from user's selected choice
+//     var currentQuestion = questions[currentQuestionIndex];
+  
+//     if (selectedChoice === currentQuestion.answer) {        // If user chooses correct answer,
+//       score++;                                              // Score increases by 1
+//       checkAnswerEl.textContent = "Correct!";               // Display "Correct!"         
+//     } else {
+//       timeLeft -= 10;                                       // Otherwise, user loses 10 seconds off timer
+//       checkAnswerEl.textContent = "Wrong! The correct answer is: " + currentQuestion.answer;       // Tells user they chose wrong answer & displays correct answer
+//     }
+// }
+// currentQuestionIndex++;                                     // Goes to next question
+  
+// if (currentQuestionIndex === questions.length) {
+//   endQuiz();
+// } else {        
+//   quizEl.removeChild(quizEl.lastChild);                     // Removes previous question and choices
+//   showQuestion();                                           // Shows next question
+// }
+
+//   // Funciton that displays final score at end of quiz
+//   function endQuiz() {
+//     clearInterval(timerInterval);
+//     timerEl.textContent = "Time's up!";
+//     finalScoreEl.textContent = score;                       // Shows final score
+//     submitBtnEl.removeEventListener("click", submitScore);  // Removes submit button to prevent user from submitting initials multiple times
+//   }
