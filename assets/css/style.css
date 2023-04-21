@@ -81,6 +81,17 @@ h1 {
     font-weight: bold;
 }
 
+#high-scores {
+    list-style: decimal;
+    color: midnightblue;
+    margin: 10px;
+    padding: 20px;
+    font-weight: bold;
+}
+
+#high-scores h2 {
+    color: black;
+}
 .hide {
     display: none;
 }

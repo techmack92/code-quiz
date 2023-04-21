@@ -12,6 +12,7 @@ var scoreEl = document.getElementById("score");
 var submitBtnEl = document.getElementById("submit-btn");
 var questionTitleEl = document.getElementById("question-title");
 var startOverBtnEl = document.getElementById("start-over-btn");
+var clearBtnEl = document.getElementById("clear-btn");
 var currentQuestionIndex = 0;
 var currentQuestion;
 var score = 0;
@@ -65,6 +66,7 @@ submitBtnEl.addEventListener("click", function() {
   highScoreEl.classList.remove("hide");
 });
 
+// Shows High Scores page
 highScoreBtnEl.addEventListener("click", function() {
   scoreEl.classList.add("hide");
   startScreenEl.classList.add("hide"); 
@@ -80,14 +82,14 @@ startOverBtnEl.addEventListener("click", function () {
 });
 
 // Clear localStorage items 
-clearBtn.addEventListener("click", function () {
-  localStorage.clear();
-  document.getElementById("highscore").innerHTML = "";
+clearBtnEl.addEventListener("click", function () {
+  window.localStorage.clear();
+  highScoreEl.innerHTML = "";
 });
 
-
+// Timer function
 function countdown() {
-  timerInterval = setInterval(function () {                                 // The `setInterval()` method calls a function to be executed every 1000 milliseconds (1 second)
+  timerInterval = setInterval(function () {                 // The `setInterval()` method calls a function to be executed every 1000 milliseconds (1 second)
     if (timeLeft > 0) {                                     // As long as `timeLeft` is greater than 1
         timeLeft--;                                         // Decrement the timer by 1
       timerEl.textContent = "Time: " + timeLeft;            // Set the `textContent` of `timer` to show the remaining seconds
@@ -101,7 +103,7 @@ function countdown() {
 function showQuestion() {
   quizEl.classList.remove("hide");
   choicesEl.classList.remove("hide");
-  currentQuestion = questions[currentQuestionIndex];           // Gets current question from `questions` array using the index
+  currentQuestion = questions[currentQuestionIndex];            // Gets current question from `questions` array using the index
   
     questionTitleEl.textContent = currentQuestion.question;      // Sets text of `quiz` element to the current question's text
     choicesEl.innerHTML = "";
@@ -122,18 +124,20 @@ function checkAnswer(event) {
       checkAnswerEl.innerHTML = "______________________________________ <br><br> Correct!";
       setTimeout(function() {
         checkAnswerEl.textContent = "";
-      }, 1000); // Makes the text flash on the screen for one second
+      }, 1000);                                                  // Makes the text flash on the screen for one second
     } else {
       timeLeft -= 10;                                            // Otherwise, user loses 10 seconds off timer
       checkAnswerEl.innerHTML = "______________________________________ <br><br> Wrong! The correct answer is: " + currentQuestion.answer;
       setTimeout(function() {
         checkAnswerEl.textContent = "";
-      }, 4000); // Makes the text flash on the screen for four seconds
+      }, 4000);                                                  // Makes the text flash on the screen for four seconds
     }
     currentQuestionIndex++;                                      // Goes to next question
     checkQuestionIndex(currentQuestionIndex);
 } 
-  
+
+// Function that checks if the question array is finished. 
+// If there are still questions left, it goes to next question. If not, the quiz ends
 function checkQuestionIndex(currentQuestionIndex) {
   if (currentQuestionIndex < questions.length) {
     showQuestion();
@@ -173,10 +177,17 @@ function submitScore(event) {
     return;
   }
 
-  var highScores = JSON.parse(localStorage.getItem("highScores")) || [];   // Retrieve high scores from local storage or initialize an empty array if no high scores exist yet
-  var newScore = { initials: initials, score: score };                      // Create a new score object with the initials and score values
+  var highScores = JSON.parse(window.localStorage.getItem("highScores")) || [];    // Retrieve high scores from local storage or initialize an empty array if no high scores exist yet
+  var newScore = { initials: initials, score: score };                             // Create a new score object with the initials and score values
 
-  highScores.push(newScore);                                                 // Add the new score object to the array of high scores
-  localStorage.setItem("highScores", JSON.stringify(highScores));           // Store the updated high scores array in local storage
-  // window.location.href = "highscores.html";                                  // Redirect the user to the high scores page
+  highScores.push(newScore);                                                       // Add the new score object to the array of high scores
+  console.log(highScores)
+  window.localStorage.setItem("highScores", JSON.stringify(highScores));           // Store the updated high scores array in local storage
+  
+  for (var i = 0; i < highScores.length; i++) {                // As long as `i` is less than the length of `highScores` array,
+      score = highScores[i];                                   // Save the score to the `highScores` array,
+      var li = document.createElement("li");                   // Create a list item element, and
+      li.textContent = score.initials + " - " + score.score    // Set the text to the user's initials & score
+      highScoreEl.appendChild(li);                             // Appends each initials/score to the high scores list
+  }
 }
