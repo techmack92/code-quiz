@@ -57,8 +57,15 @@ h1 {
 }
 
 #choices {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     list-style: none;
     padding: 0;
     margin: 0;
-    align-items: center;
+    /* align-items: center; */
+}
+
+.hide {
+    display: none;
 }

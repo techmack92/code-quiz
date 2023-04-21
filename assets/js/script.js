@@ -50,7 +50,7 @@ var questions = [
 ];
 
 startBtnEl.addEventListener("click", function() {
-  startScreenEl.style.display = "none";                    // Removes the start screen and button, but keeps the "View High Scores" and Timer displayed
+  startScreenEl.classList.add("hide");                    // Removes the start screen and button, but keeps the "View High Scores" and Timer displayed
   countdown();                                             // Once "Start Quiz" button is clicked, the timer starts
   showQuestion();
 });
@@ -71,9 +71,9 @@ function countdown() {
 
 // Function that displays questions
 function showQuestion() {
-    quizEl.style.display = "block";
-    choicesEl.style.display = "block";
-    currentQuestion = questions[currentQuestionIndex];           // Gets current question from `questions` array using the index
+  quizEl.classList.remove("hide");
+  choicesEl.classList.remove("hide");
+  currentQuestion = questions[currentQuestionIndex];           // Gets current question from `questions` array using the index
   
     questionTitleEl.textContent = currentQuestion.question;      // Sets text of `quiz` element to the current question's text
     choicesEl.innerHTML = "";
@@ -113,18 +113,19 @@ function endQuiz() {
   if (currentQuestionIndex === questions.length) {
     clearInterval(timerInterval);
     timerEl.textContent = "Quiz completed!";
-    scoreEl.style.display = "block";
-    quizEl.style.display = "none";
-    choicesEl.style.display = "none";
+    scoreEl.classList.remove("hide");
+    quizEl.classList.add("hide");
+    choicesEl.classList.add("hide");
 
     finalScoreEl.textContent = score;
   }
 
   else if (timeLeft === 0) {
     timerEl.textContent = "Time's up!";
-    scoreEl.style.display = "block";
-    quizEl.style.display = "none";
-    choicesEl.style.display = "none";
+    scoreEl.classList.remove("hide");
+    quizEl.classList.add("hide");
+    choicesEl.classList.add("hide");
+
     finalScoreEl.textContent = score;
   }
   submitBtnEl.addEventListener("click", submitScore);
