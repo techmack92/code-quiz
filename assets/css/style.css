@@ -7,7 +7,7 @@ body {
     text-align: center;
 }
 
-#header-left {
+#highscore-btn {
     font-size: 15px;
     margin: 0;
     display: flex;
@@ -17,6 +17,12 @@ body {
     cursor: pointer;
     border-radius: 5px;
 }
+
+#highscore-btn:hover {
+    color: white;
+    background-color: darkmagenta;
+}
+
 
 #countdown {
     font-size: 15px;
@@ -31,9 +37,8 @@ h1 {
 }
 
 #quiz {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: auto;
+    text-align: center;
 }
 
 .button {
@@ -41,23 +46,19 @@ h1 {
     color: white;
     cursor: pointer;
     border-radius: 5px;
-    margin: 10px;
+    margin: 5px;
     padding: 5px;
     width: 10%;
 }
 
 .button:hover {
-    color: black;
+    background-color: aliceblue;
+    color: purple;
 }
 
 #choices {
     list-style: none;
     padding: 0;
     margin: 0;
-    /* align-items: center; */
-
-    display: flex;
-    justify-content: center;
     align-items: center;
-    flex-wrap: wrap; /* to wrap buttons onto multiple lines if needed */
 }
