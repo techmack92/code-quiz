@@ -1,6 +1,7 @@
 var timerEl = document.getElementById("countdown");
 var startBtnEl = document.getElementById("start-quiz");
 var highScoreBtnEl = document.getElementById("highscore-btn");
+var highScoreEl = document.getElementById("high-scores");
 var startScreenEl = document.getElementById("start-screen");
 var quizEl = document.getElementById("quiz");
 var choicesEl = document.getElementById("choices");
@@ -10,11 +11,13 @@ var initialsInputEl = document.getElementById("initials-input");
 var scoreEl = document.getElementById("score");
 var submitBtnEl = document.getElementById("submit-btn");
 var questionTitleEl = document.getElementById("question-title");
+var startOverBtnEl = document.getElementById("start-over-btn");
 var currentQuestionIndex = 0;
 var currentQuestion;
 var score = 0;
 var timerInterval = 0;
 var timeLeft = 75;              // Timer that counts down from 75
+
 
 // List of all questions, choices, and answers
 var questions = [
@@ -49,13 +52,38 @@ var questions = [
     },
 ];
 
+// Starts quiz & timer, but hides start screen
 startBtnEl.addEventListener("click", function() {
   startScreenEl.classList.add("hide");                    // Removes the start screen and button, but keeps the "View High Scores" and Timer displayed
   countdown();                                             // Once "Start Quiz" button is clicked, the timer starts
   showQuestion();
 });
 
-submitBtnEl.addEventListener
+// Shows high scores, but hides input box and submit button
+submitBtnEl.addEventListener("click", function() {
+  scoreEl.classList.add("hide");
+  highScoreEl.classList.remove("hide");
+});
+
+highScoreBtnEl.addEventListener("click", function() {
+  scoreEl.classList.add("hide");
+  startScreenEl.classList.add("hide"); 
+  highScoreEl.classList.remove("hide");
+  questionTitleEl.classList.add("hide");
+  choicesEl.classList.add("hide");
+  checkAnswerEl.classList.add("hide");
+});
+
+// Restart or reload the page
+startOverBtnEl.addEventListener("click", function () {
+  window.location.reload();
+});
+
+// Clear localStorage items 
+clearBtn.addEventListener("click", function () {
+  localStorage.clear();
+  document.getElementById("highscore").innerHTML = "";
+});
 
 
 function countdown() {
@@ -91,14 +119,20 @@ function checkAnswer(event) {
     var selectedChoice = event.target.textContent;               // Gets the text from user's selected choice
     if (selectedChoice == currentQuestion.answer) {              // If user chooses correct answer,
       score++;                                                   // Score increases by 1
-      checkAnswerEl.textContent = "Correct!";                    
+      checkAnswerEl.innerHTML = "______________________________________ <br><br> Correct!";
+      setTimeout(function() {
+        checkAnswerEl.textContent = "";
+      }, 1000); // Makes the text flash on the screen for one second
     } else {
       timeLeft -= 10;                                            // Otherwise, user loses 10 seconds off timer
-      checkAnswerEl.textContent = "Wrong! The correct answer is: " + currentQuestion.answer;
+      checkAnswerEl.innerHTML = "______________________________________ <br><br> Wrong! The correct answer is: " + currentQuestion.answer;
+      setTimeout(function() {
+        checkAnswerEl.textContent = "";
+      }, 4000); // Makes the text flash on the screen for four seconds
     }
     currentQuestionIndex++;                                      // Goes to next question
     checkQuestionIndex(currentQuestionIndex);
-}
+} 
   
 function checkQuestionIndex(currentQuestionIndex) {
   if (currentQuestionIndex < questions.length) {
@@ -138,9 +172,11 @@ function submitScore(event) {
   if (initials === "") {                           // If initials input value is empty, do not submit score
     return;
   }
+
   var highScores = JSON.parse(localStorage.getItem("highScores")) || [];   // Retrieve high scores from local storage or initialize an empty array if no high scores exist yet
   var newScore = { initials: initials, score: score };                      // Create a new score object with the initials and score values
+
   highScores.push(newScore);                                                 // Add the new score object to the array of high scores
   localStorage.setItem("highScores", JSON.stringify(highScores));           // Store the updated high scores array in local storage
-  window.location.href = "highscores.html";                                  // Redirect the user to the high scores page
+  // window.location.href = "highscores.html";                                  // Redirect the user to the high scores page
 }
