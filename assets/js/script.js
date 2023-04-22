@@ -18,6 +18,8 @@ var currentQuestion;
 var score = 0;
 var timerInterval = 0;
 var timeLeft = 75;              // Timer that counts down from 75
+var highScores = JSON.parse(window.localStorage.getItem("highScores")) || [];    // Retrieve high scores from local storage or initialize an empty array if no high scores exist yet
+
 
 
 // List of all questions, choices, and answers
@@ -68,13 +70,23 @@ submitBtnEl.addEventListener("click", function() {
 
 // Shows High Scores page
 highScoreBtnEl.addEventListener("click", function() {
-  scoreEl.classList.add("hide");
   startScreenEl.classList.add("hide"); 
   highScoreEl.classList.remove("hide");
   questionTitleEl.classList.add("hide");
   choicesEl.classList.add("hide");
   checkAnswerEl.classList.add("hide");
-});
+  startOverBtnEl.classList.remove("hide");
+  clearBtnEl.classList.remove("hide");
+
+  // Retrieve high scores from localStorage and display them
+  highScoreEl.innerHTML = "<h2>High Scores</h2><ol>";
+  for (var i = 0; i < highScores.length; i++) {
+    var li = document.createElement("li");
+    li.textContent = highScores[i].initials + " - " + highScores[i].score;
+    highScoreEl.appendChild(li);
+  }
+  highScoreEl.innerHTML += "</ol>";
+  });
 
 // Restart or reload the page
 startOverBtnEl.addEventListener("click", function () {
@@ -177,13 +189,13 @@ function submitScore(event) {
     return;
   }
 
-  var highScores = JSON.parse(window.localStorage.getItem("highScores")) || [];    // Retrieve high scores from local storage or initialize an empty array if no high scores exist yet
   var newScore = { initials: initials, score: score };                             // Create a new score object with the initials and score values
 
   highScores.push(newScore);                                                       // Add the new score object to the array of high scores
   console.log(highScores)
   window.localStorage.setItem("highScores", JSON.stringify(highScores));           // Store the updated high scores array in local storage
   
+  // Displays high scores with user's initials
   for (var i = 0; i < highScores.length; i++) {                // As long as `i` is less than the length of `highScores` array,
       score = highScores[i];                                   // Save the score to the `highScores` array,
       var li = document.createElement("li");                   // Create a list item element, and
