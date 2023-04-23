@@ -17,7 +17,7 @@ var currentQuestionIndex = 0;
 var currentQuestion;
 var score = 0;
 var timerInterval = 0;
-var timeLeft = 75;              // Timer that counts down from 75
+var timeLeft = 75;                                                               // Timer that counts down from 75
 var highScores = JSON.parse(window.localStorage.getItem("highScores")) || [];    // Retrieve high scores from local storage or initialize an empty array if no high scores exist yet
 
 
@@ -68,7 +68,7 @@ submitBtnEl.addEventListener("click", function() {
   highScoreEl.classList.remove("hide");
 });
 
-// Shows High Scores page
+// Shows High Scores page only
 highScoreBtnEl.addEventListener("click", function() {
   startScreenEl.classList.add("hide"); 
   highScoreEl.classList.remove("hide");
@@ -78,7 +78,7 @@ highScoreBtnEl.addEventListener("click", function() {
   startOverBtnEl.classList.remove("hide");
   clearBtnEl.classList.remove("hide");
 
-  // Retrieve high scores from localStorage and display them
+  // Retrieves high scores from localStorage and displays them
   highScoreEl.innerHTML = "<h2>High Scores</h2><ol>";
   for (var i = 0; i < highScores.length; i++) {
     var li = document.createElement("li");
@@ -88,7 +88,7 @@ highScoreBtnEl.addEventListener("click", function() {
   highScoreEl.innerHTML += "</ol>";
   });
 
-// Restart or reload the page
+// Reloads the page
 startOverBtnEl.addEventListener("click", function () {
   window.location.reload();
 });
